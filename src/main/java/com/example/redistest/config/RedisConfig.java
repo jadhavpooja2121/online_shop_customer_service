@@ -1,5 +1,6 @@
 package com.example.redistest.config;
 
+import java.io.IOException;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,7 @@ public class RedisConfig {
   private Configurator configurator;
 
   @PostConstruct
-  public void init() {
+  public void init() throws IOException {
     // Redis Nodes
     List<String> nodes = CollectionUtils
         .convertCsvToList(configurator.getString(RedisConstants.REDIS_CLUSTER_NODES_CONFIG_KEY));
