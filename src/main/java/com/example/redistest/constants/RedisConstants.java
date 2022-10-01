@@ -27,5 +27,6 @@ public class RedisConstants {
     public static final Long ONLINE_USER_ID_BRANCH_KEY_TTL = 15L* 60L * 1000;
     public static final String ONLINE_OFFLINE_USER_KEY = "r:core_engine:online_offline_users";
     public static final Long ONLINE_OFFLINE_USER_KEY_TTL = 15L* 60L * 1000;
+    public static final String SAVE_USER_REDIS_KEY = "r:core_engine:user_id:branch_name";
   }
 

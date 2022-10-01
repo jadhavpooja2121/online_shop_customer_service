@@ -61,5 +61,9 @@ public class RedisServiceUtils {
   public static String onlineOfflineUserKey() {
     return RedisUtils.getKey(RedisConstants.ONLINE_OFFLINE_USER_KEY);
   }
+  
+  public static String saveUserIdCityKey(Long userId,String city) {
+    return RedisUtils.getKey(RedisConstants.SAVE_USER_REDIS_KEY, userId.toString(), city);
+  }
 }
 

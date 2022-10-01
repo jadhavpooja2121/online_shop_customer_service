@@ -19,6 +19,7 @@ import com.example.redistest.dao.OnlineOfflineUserDAO;
 import com.example.redistest.dbo.UserDBO;
 import com.example.redistest.dos.OnlineOfflineUserDO;
 import com.example.redistest.repository.UserRepository;
+import com.example.redistest.service.LuaTestService;
 import com.example.redistest.service.OnlineOfflineUsersService;
 import com.example.redistest.service.OnlineUsersService;
 import com.example.redistest.service.UserService;
@@ -44,6 +45,9 @@ public class TestController extends BaseController {
 
   @Autowired
   private UserRepository userRepository;
+
+  @Autowired
+  private LuaTestService luaTestService;
 
   @GetMapping(value = "/users/{city}", produces = MediaType.APPLICATION_JSON_VALUE)
   public DeferredResult<ResponseEntity<?>> getUsersByCity(@PathVariable String city,
@@ -95,11 +99,45 @@ public class TestController extends BaseController {
     return df;
   }
 
+  @GetMapping(value = "/user_data", produces = MediaType.APPLICATION_JSON_VALUE)
+  public DeferredResult<ResponseEntity<?>> storeUsersData(HttpServletRequest request) {
+    Long startTime = System.currentTimeMillis();
+    String apiEndPoint = "/v1/core_engine/users";
+    DeferredResult<ResponseEntity<?>> df = new DeferredResult<ResponseEntity<?>>();
+    try {
+      LoginContext loginContext = getLoginContext(request);
+      CompletableFuture<ResponseEntity<?>> cf = new CompletableFuture<ResponseEntity<?>>();
+      userService.saveDataIntoRedis(cf, DataSource.REDIS);
+      this.processDeferredResult(df, cf, apiEndPoint, startTime, loginContext.getReqId());
+    } catch (Exception e) {
+      logger.error(StringUtils.printStackTrace(e));
+    }
+    return df;
+  }
+
+  @GetMapping(value = "/test", produces = MediaType.APPLICATION_JSON_VALUE)
+  public DeferredResult<ResponseEntity<?>> verifyLua(HttpServletRequest request) {
+    Long startTime = System.currentTimeMillis();
+    String apiEndPoint = "/v1/core_engine/users";
+    DeferredResult<ResponseEntity<?>> df = new DeferredResult<ResponseEntity<?>>();
+    try {
+      LoginContext loginContext = getLoginContext(request);
+      CompletableFuture<ResponseEntity<?>> cf = new CompletableFuture<ResponseEntity<?>>();
+      luaTestService.testLua("name", "Pooja", cf);
+      this.processDeferredResult(df, cf, apiEndPoint, startTime, loginContext.getReqId());
+    } catch (Exception e) {
+      logger.error(StringUtils.printStackTrace(e));
+    }
+    return df;
+  }
+
+
+
   @GetMapping("/mongotest")
   public List<UserDBO> getUsers() {
     return userRepository.findAll();
   }
-  
+
   @PostMapping("/insert")
   public ResponseEntity<?> add(@RequestBody UserDBO user) {
     UserDBO save = this.userRepository.save(user);

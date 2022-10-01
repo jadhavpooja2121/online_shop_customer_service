@@ -39,5 +39,5 @@ public class OnlineOfflineUsersService {
       OnlineOfflineUserDO onlineOfflineUserDO = new OnlineOfflineUserDO(users);
       cf.complete(new ResponseEntity<>(new OkResponseDO<>(onlineOfflineUserDO), HttpStatus.OK));
     }
-  }
+  } 
 }

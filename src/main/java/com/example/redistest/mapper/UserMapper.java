@@ -1,5 +1,6 @@
 package com.example.redistest.mapper;
 
+import java.util.List;
 import java.util.Set;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
@@ -19,8 +20,11 @@ public interface UserMapper {
  public Long save(UserDBO userDBO);
 
  // READ
- @Select("SELECT * FROM tournaments WHERE id = #{id} AND is_active = true")
+ @Select("SELECT * FROM users WHERE id = #{id}")
  public UserDBO findById(Long id);
+ 
+ @Select("SELECT * FROM users")
+ public List<UserDBO> getAllData();
 
  // UPDATE
  @Update("UPDATE tournaments SET tp_id = #{tpId}, name = #{name}, display_name = #{displayName}, "
