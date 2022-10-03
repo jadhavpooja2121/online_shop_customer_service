@@ -46,7 +46,7 @@ public class UserService {
   public void saveDataIntoRedis(CompletableFuture<ResponseEntity<?>> cf, DataSource dataSource)
       throws IOException {
     UserDBO userData = userDAO.getById(1L, DataSource.SLAVE);
-    userDAO.saveIntoRedisDb(userData);
-    cf.complete(new ResponseEntity<>(new OkResponseDO<>(userData), HttpStatus.OK));
+//    userDAO.saveIntoRedisDb(userData);
+//    cf.complete(new ResponseEntity<>(new OkResponseDO<>(userData), HttpStatus.OK));
   }
 }

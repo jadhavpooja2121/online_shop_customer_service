@@ -72,19 +72,19 @@ public class UserDAO extends BaseDAO {
     return null;
   }
 
-  public void saveIntoRedisDb(UserDBO userDBO) throws IOException {
-    String userData = JacksonUtils.toJson(userDBO);
-    // redis.sadd(RedisConstants.REDIS_ALIAS,
-    // RedisServiceUtils.saveUserIdCityKey(userDBO.getId(), userDBO.getCity()), userData);
-    redis.lpush(RedisConstants.REDIS_ALIAS,
-        RedisServiceUtils.saveUserIdCityKey(userDBO.getId(), userDBO.getCity()), userData);
-    String lastInserted = redis.lastindex(RedisConstants.REDIS_ALIAS,
-        RedisServiceUtils.saveUserIdCityKey(userDBO.getId(), userDBO.getCity()));
-    // redis.loadScript("lua_alias",
-    // "C:\\Users\\Admin\\FantasyClash\\redistest\\src\\main\\java\\redis_script.lua");
-    // redis.execute(userData, lastInserted, null, null);
-    System.out.println(lastInserted);
-  }
+//  public void saveIntoRedisDb(UserDBO userDBO) throws IOException {
+//    String userData = JacksonUtils.toJson(userDBO);
+//    // redis.sadd(RedisConstants.REDIS_ALIAS,
+//    // RedisServiceUtils.saveUserIdCityKey(userDBO.getId(), userDBO.getCity()), userData);
+//    redis.lpush(RedisConstants.REDIS_ALIAS,
+//        RedisServiceUtils.saveUserIdCityKey(userDBO.getId(), userDBO.getCity()), userData);
+//    String lastInserted = redis.lastindex(RedisConstants.REDIS_ALIAS,
+//        RedisServiceUtils.saveUserIdCityKey(userDBO.getId(), userDBO.getCity()));
+//    // redis.loadScript("lua_alias",
+//    // "C:\\Users\\Admin\\FantasyClash\\redistest\\src\\main\\java\\redis_script.lua");
+//    // redis.execute(userData, lastInserted, null, null);
+//    System.out.println(lastInserted);
+//  }
 
   public void update(UserDBO userDBO) {
     getMapper(DataSource.MASTER).update(userDBO);

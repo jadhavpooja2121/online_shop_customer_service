@@ -15,18 +15,18 @@ public class OnlineOfflineUserDAO {
   @Autowired
   private ClusteredRedis redis;
 
-  public Set<Long> getOnlineOfflineUsers(String city, String branch, DataSource dataSource) {
-    Set<String> online_offline_users = redis
-        .sinter(RedisConstants.REDIS_ALIAS, RedisServiceUtils.userIdCityKey(city),
-            RedisServiceUtils.onlineUserIdBranchKey(branch))
-        .stream().map(String::valueOf).collect(Collectors.toSet());
-    String[] onlineOfflineUsers = online_offline_users.stream().map(String::valueOf)
-        .collect(Collectors.toSet()).toArray(new String[online_offline_users.size()]);
-    redis.sadd(RedisConstants.REDIS_ALIAS, RedisServiceUtils.onlineOfflineUserKey(),
-        onlineOfflineUsers);
-    redis.expire(RedisConstants.REDIS_ALIAS, RedisServiceUtils.onlineOfflineUserKey(),
-        RedisConstants.ONLINE_OFFLINE_USER_KEY_TTL);
-    return online_offline_users.stream().map(team -> Long.parseLong(team))
-        .collect(Collectors.toSet());
-  }
+//  public Set<Long> getOnlineOfflineUsers(String city, String branch, DataSource dataSource) {
+//    Set<String> online_offline_users = redis
+//        .sinter(RedisConstants.REDIS_ALIAS, RedisServiceUtils.userIdCityKey(city),
+//            RedisServiceUtils.onlineUserIdBranchKey(branch))
+//        .stream().map(String::valueOf).collect(Collectors.toSet());
+//    String[] onlineOfflineUsers = online_offline_users.stream().map(String::valueOf)
+//        .collect(Collectors.toSet()).toArray(new String[online_offline_users.size()]);
+//    redis.sadd(RedisConstants.REDIS_ALIAS, RedisServiceUtils.onlineOfflineUserKey(),
+//        onlineOfflineUsers);
+//    redis.expire(RedisConstants.REDIS_ALIAS, RedisServiceUtils.onlineOfflineUserKey(),
+//        RedisConstants.ONLINE_OFFLINE_USER_KEY_TTL);
+//    return online_offline_users.stream().map(team -> Long.parseLong(team))
+//        .collect(Collectors.toSet());
+//  }
 }

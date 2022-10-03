@@ -32,12 +32,12 @@ public class OnlineOfflineUsersService {
   @Async("asyncExecutor")
   public void getUsersByCity(String city, String branch, CompletableFuture<ResponseEntity<?>> cf,
       DataSource dataSource) {
-    Set<String> userIds =
-        redis.smembers(RedisConstants.REDIS_ALIAS, RedisServiceUtils.onlineOfflineUserKey());
-    if (userIds == null || userIds.size() == 0) {
-      Set<Long> users = onlineOfflineUserDAO.getOnlineOfflineUsers(city, branch, DataSource.REDIS);
-      OnlineOfflineUserDO onlineOfflineUserDO = new OnlineOfflineUserDO(users);
-      cf.complete(new ResponseEntity<>(new OkResponseDO<>(onlineOfflineUserDO), HttpStatus.OK));
-    }
+//    Set<String> userIds =
+//        redis.smembers(RedisConstants.REDIS_ALIAS, RedisServiceUtils.onlineOfflineUserKey());
+//    if (userIds == null || userIds.size() == 0) {
+//      Set<Long> users = onlineOfflineUserDAO.getOnlineOfflineUsers(city, branch, DataSource.REDIS);
+//      OnlineOfflineUserDO onlineOfflineUserDO = new OnlineOfflineUserDO(users);
+//      cf.complete(new ResponseEntity<>(new OkResponseDO<>(onlineOfflineUserDO), HttpStatus.OK));
+//    }
   } 
 }

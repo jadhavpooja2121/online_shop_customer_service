@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.async.DeferredResult;
+import com.example.redistest.config.MongoConfig;
 import com.example.redistest.dao.OnlineOfflineUserDAO;
 import com.example.redistest.dbo.UserDBO;
 import com.example.redistest.dos.OnlineOfflineUserDO;
@@ -24,9 +25,11 @@ import com.example.redistest.service.OnlineOfflineUsersService;
 import com.example.redistest.service.OnlineUsersService;
 import com.example.redistest.service.UserService;
 import com.fantasy.clash.framework.http.controller.BaseController;
+import com.fantasy.clash.framework.http.dos.MessageResponseDO;
 import com.fantasy.clash.framework.http.header.dos.LoginContext;
 import com.fantasy.clash.framework.object_collection.enums.DataSource;
 import com.fantasy.clash.framework.utils.StringUtils;
+import com.mongodb.client.MongoClient;
 
 @RestController
 @RequestMapping("v1/core_engine")
@@ -48,7 +51,7 @@ public class TestController extends BaseController {
 
   @Autowired
   private LuaTestService luaTestService;
-
+  
   @GetMapping(value = "/users/{city}", produces = MediaType.APPLICATION_JSON_VALUE)
   public DeferredResult<ResponseEntity<?>> getUsersByCity(@PathVariable String city,
       HttpServletRequest request) {
@@ -142,5 +145,12 @@ public class TestController extends BaseController {
   public ResponseEntity<?> add(@RequestBody UserDBO user) {
     UserDBO save = this.userRepository.save(user);
     return ResponseEntity.ok(save);
+  }
+
+  @PostMapping("/save")
+  public ResponseEntity<?> save(@RequestBody UserDBO userDBO) {
+    MongoConfig mongoConfig = new MongoConfig();
+    mongoConfig.init();
+    return ResponseEntity.ok(new MessageResponseDO("saved"));
   }
 }
