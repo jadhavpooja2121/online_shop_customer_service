@@ -78,12 +78,9 @@ public class UserDAO extends BaseDAO {
     // RedisServiceUtils.saveUserIdCityKey(userDBO.getId(), userDBO.getCity()), userData);
     redis.lpush(RedisConstants.REDIS_ALIAS,
         RedisServiceUtils.saveUserIdCityKey(userDBO.getId(), userDBO.getCity()), userData);
-    String lastInserted = redis.lastindex(RedisConstants.REDIS_ALIAS,
-        RedisServiceUtils.saveUserIdCityKey(userDBO.getId(), userDBO.getCity()));
-    // redis.loadScript("lua_alias",
-    // "C:\\Users\\Admin\\FantasyClash\\redistest\\src\\main\\java\\redis_script.lua");
-    // redis.execute(userData, lastInserted, null, null);
-    System.out.println(lastInserted);
+    // String lastInserted = redis.lastindex(RedisConstants.REDIS_ALIAS,
+    // RedisServiceUtils.saveUserIdCityKey(userDBO.getId(), userDBO.getCity()));
+    // System.out.println(lastInserted);
   }
 
   public void update(UserDBO userDBO) {
