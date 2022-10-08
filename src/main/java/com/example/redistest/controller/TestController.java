@@ -63,6 +63,7 @@ public class TestController extends BaseController {
 
   @Autowired
   private AsyncConfig asyncConfig;
+
   @GetMapping(value = "/users/{city}", produces = MediaType.APPLICATION_JSON_VALUE)
   public DeferredResult<ResponseEntity<?>> getUsersByCity(@PathVariable String city,
       HttpServletRequest request) {
@@ -166,32 +167,18 @@ public class TestController extends BaseController {
   @GetMapping(value = "/check_response", produces = MediaType.APPLICATION_JSON_VALUE)
   public DeferredResult<ResponseEntity<?>> checkResponse(HttpServletRequest request) {
     Long startTime = System.currentTimeMillis();
-    String apiEndPoint = "/v1/core_engine/users";
+    String apiEndPoint = "/v1/check_response";
     DeferredResult<ResponseEntity<?>> df = new DeferredResult<ResponseEntity<?>>();
     try {
       LoginContext loginContext = getLoginContext(request);
       CompletableFuture<ResponseEntity<?>> cf = new CompletableFuture<ResponseEntity<?>>();
-      var cfr = CompletableFuture.supplyAsync(() -> {
-        try {
-          return sendResponseService.getInventoryItems(cf);
-        } catch (JsonMappingException e) {
-          // TODO Auto-generated catch block
-          e.printStackTrace();
-        } catch (JsonProcessingException e) {
-          // TODO Auto-generated catch block
-          e.printStackTrace();
-        }
-        return null;
-      }, asyncConfig.asyncTaskExecutor());
-       System.out.println(cfr.toString());
-        //     ResponseEntity<?> sendServiceResponse = cf.get();
-//      String response = sendServiceResponse.getBody().toString();
-//      BaseResponseDO baseResponse = JacksonUtils.fromJson(response, BaseResponseDO.class);
-//      if (baseResponse.code == HttpStatus.OK.value()) {
-//        System.out.println("Code works");
-//      } else {
-//        System.out.println("Code failed");
-//      }
+      // sendResponseService.checkInventoryItems(cf); // runAsync;
+
+      BaseResponseDO baseResponse = sendResponseService.findInventoryItems(cf); // supplyAsync
+     // ResponseEntity<?> cfr = cf.get();
+      System.out.println("code is :"+baseResponse.code);
+    //  System.out.println();
+
       this.processDeferredResult(df, cf, apiEndPoint, startTime, loginContext.getReqId());
     } catch (Exception e) {
       logger.error(StringUtils.printStackTrace(e));
